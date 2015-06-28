@@ -13,10 +13,12 @@ defmodule Chat.RoomChannel do
   for the requested topic
   """
   def join("rooms:lobby", message, socket) do
+    Logger.debug "> join room #{inspect message}"
     Process.flag(:trap_exit, true)
     :timer.send_interval(5000, :ping)
-    # send(self, {:after_join, message})
-    # {:ok, socket}
+
+    send(self, {:after_join, message})
+
     {:ok, %{messages: "joined"}, socket}
   end
 
@@ -27,20 +29,22 @@ defmodule Chat.RoomChannel do
   # end
 
   def handle_info({:after_join, msg}, socket) do
-    Logger.debug "> join #{socket.topic}"
+    Logger.debug "> after_join #{inspect msg}"
     broadcast! socket, "user:entered", %{user: msg["user"]}
     push socket, "join", %{status: "connected"}
     {:noreply, socket}
   end
 
   def handle_info(:ping, socket) do
+    Logger.debug "> handle_info ping"
     push socket, "new:msg", %{user: "SYSTEM", body: "ping"}
     {:noreply, socket}
   end
 
   def handle_in("new:msg", msg, socket) do
+    Logger.debug "> handle_in #{inspect msg}"
     broadcast! socket, "new:msg", %{user: msg["user"], body: msg["body"]}
-    {:reply, {:ok, msg["body"]}, assign(socket, :user, msg["user"])}
+    {:reply, {:ok, %{msg: msg["body"]}}, assign(socket, :user, msg["user"])}
   end
 
   def terminate(reason, socket) do

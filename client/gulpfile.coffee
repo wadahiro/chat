@@ -19,7 +19,7 @@ gulp.task 'build', [
 gulp.task 'build:js', ->
   gulp.src('src/**/*.js')
     .pipe(plumber())
-    .pipe(babel())
+    # .pipe(babel())
     .pipe(gulp.dest('_lib'))
 
 gulp.task 'build:coffee', ->
@@ -45,7 +45,9 @@ gulp.task 'enable-watch-mode', -> watching = true
 gulp.task 'browserify', watchify (watchify) ->
   gulp.src '_lib/index.js'
     .pipe watchify
-      watch: watching
+      watch: watching,
+      debug: true,
+      transform: [['babelify', {stage: 1}]]
     .pipe gulp.dest '../priv/static/js'
 
 gulp.task 'watchify', ['enable-watch-mode', 'browserify']

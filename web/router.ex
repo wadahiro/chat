@@ -17,6 +17,12 @@ defmodule Chat.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api", Chat do
+    pipe_through :api
+
+    resources "/channels", ChannelController
+  end
+
   scope "/", Chat do
     pipe_through :browser # Use the default browser stack
 

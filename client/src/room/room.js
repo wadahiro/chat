@@ -3,14 +3,14 @@ import {Socket} from '../vendor/phoenix';
 export default class Room {
   ready: Promise;
   channel: phoenix.Channel;
-  constructor(roomId){
+  constructor(roomId, userName){
     let deferred = Promise.defer();
     this.ready = deferred.promise;
 
     var socket = new Socket("ws://" + location.host +  "/ws")
     socket.connect();
     socket.onClose( e => console.log("CLOSE", e));
-    let chan = socket.chan("rooms:" + roomId, {});
+    let chan = socket.chan("rooms:" + roomId, {user: userName});
     chan.onError( e => console.log("something went wrong", e) )
     chan.onClose( e => console.log("channel closed", e) );
     chan.join("rooms:lobby", {})
