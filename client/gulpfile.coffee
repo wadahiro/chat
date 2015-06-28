@@ -47,6 +47,7 @@ gulp.task 'browserify', watchify (watchify) ->
     .pipe watchify
       watch: watching,
       debug: true,
+      poll: true,
       transform: [['babelify', {stage: 1}]]
     .pipe gulp.dest '../priv/static/js'
 

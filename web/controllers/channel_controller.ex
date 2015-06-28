@@ -17,11 +17,7 @@ defmodule Chat.ChannelController do
   def show(conn, %{"id" => id}) do
     dummyJson = %{
       name: id,
-      msgs: [
-        %{id: "1", name: "test1", msg: "abc"},
-        %{id: "2", name: "test2", msg: "def"},
-        %{id: "3", name: "test3", msg: "ghi"}
-      ]
+      msgs: Enum.map(1..100, fn x -> %{id: "#{x}", name: "test1", msg: "#{x}.. abc"} end)
     }
     render conn, "show.json", channles: dummyJson
   end
