@@ -39,7 +39,7 @@ class FavChannelList extends React.Component {
         <h2>Starred</h2>
         <ul>
           {this.state.channels && this.state.channels.map(channel => (
-            <li><Link to={`/channel/${channel.name}`}>{channel.name}aa</Link></li>
+            <li><Link to={`/channel/${channel.name}`}>{channel.name}</Link></li>
           ))}
         </ul>
       </div>

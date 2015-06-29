@@ -11,7 +11,7 @@ export default class Channel extends React.Component {
       .then(res => {
         return res.json();
       }).then(json => {
-        console.log('response2:', json);
+        console.log('response4:', json);
 
         this.setState({msgs: json.msgs});
       });
