@@ -24,7 +24,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <div style={sidebarStyle}>
+        <div>
           {this.props.sidebar || <IndexSidebar/>}
         </div>
         <div style={contentStyle}>

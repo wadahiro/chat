@@ -1,88 +1,46 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Radium from 'radium';
+import ProfileMenu from './ProfileMenu';
+import Channels from './Channels';
+import SideFooter from './SideFooter';
 
-let categories = [
-  {name: 'Test1'}
-];
+let style = {
+  base: {
+    position: 'absolute',
+    width: 220,
+    zIndex: 1000
+  },
+  top: {
+    top: 0,
+    height: 60
+  },
+  middle: {
+    top: 60,
+    height: 'calc(100% - 130px)',
+    overflowY: 'scroll',
+    background: '#252a3a'
+  },
+  bottom: {
+    bottom: 0,
+    height: 70
+  }
+};
 
-class Profile extends React.Component {
-  render() {
-    return (
-      <header>
-        <div>
-          <h4>MyName</h4>
-        </div>
-      </header>
-    );
-  }
-}
-
-class FavChannelList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {channles: []};
-  }
-  componentDidMount() {
-    fetch('/api/channels')
-      .then(res => {
-        return res.json();
-      }).then(json => {
-        console.log('response:', json);
-
-        this.setState({channels: json.channels});
-      });
-  }
-  render() {
-    return (
-      <div>
-        <h2>Starred</h2>
-        <ul>
-          {this.state.channels && this.state.channels.map(channel => (
-            <li><Link to={`/channel/${channel.name}`}>{channel.name}</Link></li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
-
-class ChannelList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {channles: []};
-  }
-  componentDidMount() {
-    fetch('/api/channels')
-      .then(res => {
-        return res.json();
-      }).then(json => {
-        console.log('response:', json);
-
-        this.setState({channels: json.channels});
-      });
-  }
-  render() {
-    return (
-      <div>
-        <h2>Channels</h2>
-        <ul>
-          {this.state.channels && this.state.channels.map(channel => (
-            <li><Link to={`/channel/${channel.name}`}>{channel.name}</Link></li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
-
+@Radium
 export default class IndexSidebar extends React.Component {
   render() {
     return (
       <div>
-        <Profile />
-        <FavChannelList />
-        <ChannelList />
+        <div style={[style.base, style.top]}>
+          <ProfileMenu />
+        </div>
+        <div style={[style.base, style.middle]}>
+          <Channels />
+        </div>
+        <div style={[style.base, style.bottom]}>
+          <SideFooter />
+        </div>
       </div>
     );
   }

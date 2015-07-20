@@ -42,7 +42,7 @@ gulp.task 'build:reiny', ->
     .pipe(gulp.dest('_lib'))
 
 gulp.task 'build:css', ->
-  gulp.src('styles/style.scss')
+  gulp.src('styles/*.scss')
     .pipe(plumber())
     .pipe(sass())
     .pipe(gulp.dest('../priv/static/css'))
@@ -60,13 +60,14 @@ gulp.task 'enable-watch-mode', -> watching = true
 
 gulp.task 'browserify', ->
   bundler = watchify(browserify('./src/index.js', {
+    paths: ['./node_modules', './src'],
     debug: true,
     cache: {},
     packageCache: {}
   }))
 
   bundler.transform(babelify.configure({
-    stage: 1
+    stage: 0
   }));
 
   rebundle = ->
